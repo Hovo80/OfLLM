@@ -1,0 +1,24 @@
+[package]
+name = "gl4-core-public"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-only"
+authors = ["Martirosyan Hovhannes - Gayane Soft"]
+description = "GL4 4-bit LUT core for edge AI and ZKML - 8x less constraints than fp32"
+repository = "https://github.com/martirosyan4184/gl4-core-public"
+keywords = ["fixed-point", "quantization", "gl4", "zkml", "no_std", "arm"]
+categories = ["embedded", "cryptography", "science"]
+readme = "README.md"
+
+[features]
+default = ["std"]
+std = []
+avx2 = []
+neon = []
+
+[dependencies]
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
