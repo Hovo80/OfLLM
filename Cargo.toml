@@ -2,12 +2,7 @@
 members = ["gl4-core-public", "q20-private"]
 resolver = "2"
 
-[package]
-name = "of-llm"
-version = "17.4.0"
-edition = "2021"
-description = "OfLLM - 4-bit ZKML LLM by Gayane Soft"
-
-[dependencies]
-gl4-core-public = { path = "gl4-core-public" }
-q20-private = { path = "q20-private" }
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3

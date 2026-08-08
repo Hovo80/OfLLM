@@ -7,14 +7,6 @@ name = "gl4-core-public"
 version = "0.1.0"
 
 [[package]]
-name = "of-llm"
-version = "17.4.0"
-dependencies = [
- "gl4-core-public",
- "q20-private",
-]
-
-[[package]]
 name = "q20-private"
 version = "17.4.0"
 dependencies = [
