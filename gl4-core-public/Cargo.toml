@@ -2,23 +2,28 @@
 name = "gl4-core-public"
 version = "0.1.0"
 edition = "2021"
+description = "Production-ready 4-bit LUT core - 8x less ZK constraints than fp32, 4.2x faster than int8"
 license = "GPL-3.0-only"
-authors = ["Martirosyan Hovhannes - Gayane Soft"]
-description = "GL4 4-bit LUT core for edge AI and ZKML - 8x less constraints than fp32"
 repository = "https://github.com/martirosyan4184/gl4-core-public"
-keywords = ["fixed-point", "quantization", "gl4", "zkml", "no_std", "arm"]
-categories = ["embedded", "cryptography", "science"]
+keywords = ["zkml", "quantization", "arm", "edge-ai", "fixed-point"]
 readme = "README.md"
+
+[lib]
+name = "gl4_core_public"
+path = "src/lib.rs"
+
+[[bench]]
+name = "gl4_bench"
+harness = false
+path = "benches/gl4_bench.rs"
+
+[dependencies]
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
 
 [features]
 default = ["std"]
 std = []
-avx2 = []
 neon = []
-
-[dependencies]
-
-[profile.release]
-lto = true
-codegen-units = 1
-opt-level = 3
+avx2 = []
