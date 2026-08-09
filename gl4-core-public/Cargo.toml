@@ -1,12 +1,13 @@
 [package]
 name = "gl4-core-public"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Production-ready 4-bit LUT core - 8x less ZK constraints than fp32, 4.2x faster than int8"
-license = "GPL-3.0-only"
-repository = "https://github.com/martirosyan4184/gl4-core-public"
+license = "BSL-1.1"
+repository = "https://github.com/Hovo80/OfLLM"
 keywords = ["zkml", "quantization", "arm", "edge-ai", "fixed-point"]
 readme = "README.md"
+authors = ["Hovhannes Martirosyan (Hovo80)"]
 
 [lib]
 name = "gl4_core_public"
