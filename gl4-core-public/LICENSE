@@ -1,0 +1,50 @@
+Business Source License 1.1
+
+Licensor: Hovhannes Martirosyan (Hovo80) - OfLLM / GL4
+Licensed Work: OfLLM and gl4-core-public, all versions after 0.1.0
+                The Licensed Work is (c) 2026 Hovhannes Martirosyan
+
+Change Date: 2029-08-09 (3 years from now)
+Change License: MIT License
+
+---
+
+TERMS
+
+The Licensor hereby grants you the right to copy, modify, create derivative
+works, redistribute, and make non-production use of the Licensed Work.
+The Licensor may make an Additional Use Grant, above, permitting limited
+production use.
+
+ADDITIONAL USE GRANT:
+
+1. FREE USE: You may use the Licensed Work for free ONLY if:
+   - You are an individual, student, or open-source project
+   - AND your organization has less than $10,000 USD monthly revenue
+   - AND you are NOT using it in a commercial product, SaaS, or for client work
+
+2. COMMERCIAL USE REQUIRES PAID LICENSE:
+   Any use in a company, startup, SaaS, product that makes money,
+   freelance client project, or any organization with >$10k/mo revenue
+   REQUIRES a paid commercial license.
+
+   To buy a commercial license:
+   - Indie: $49 one-time (up to 3 devs, $100k/mo revenue)
+   - Company: $299 one-time (unlimited devs in one company)
+   - Enterprise: Contact via GitHub Issues
+
+   Without a paid license, commercial production use is NOT ALLOWED.
+
+3. You may NOT provide the Licensed Work as a hosted service to third parties.
+
+---
+
+WHAT THIS MEANS:
+
+- v0.1.0 remains MIT forever (as published on crates.io)
+- v0.2.0 and all future versions: FREE for learning/personal, PAID for commercial
+- If you make money using this code, you MUST pay
+- After Change Date (2029-08-09), each version automatically becomes MIT
+
+This license protects the author from being used for free by corporations while
+keeping it free for students and open-source.
