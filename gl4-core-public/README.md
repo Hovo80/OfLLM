@@ -1,67 +1,40 @@
-# gl4-core-public - Q20-ARM v17.4 core
+# gl4-core-public - 4-bit LUT Core for ZKML & Edge AI
+**Repository:** https://github.com/Hovo80/OfLLM
+**Crate:** gl4-core-public
+**Author:** Hovhannes Martirosyan (Hovo80)
 
-Production-ready 4-bit LUT core. Часть проекта Q20-ARM v17.4.
+> ## ⚠️ COMMERCIAL USE REQUIRES PAID LICENSE - BSL-1.1
+> This crate is NOT free for commercial use since v0.2.0.
 
-**Автор:** Martirosyan Hovhannes (Gayane Soft) - Yerevan, AM  
-**Лицензия:** GPL-3.0-only - бесплатно для open-source, платно для closed-source (dual-license).
+### Buy License
+- **GitHub:** https://github.com/Hovo80/OfLLM/issues (Title: BUY LICENSE)
+- **Price:** $49 Indie (up to 3 devs) / $299 Company (unlimited)
 
-## Что внутри - РЕАЛЬНЫЙ КОД
-- `Gl4Digit = u8` - 4-битное значение 0..15
-- `Q1_15`, `Q1_31`, `Q4_28`, `Q2_6` - fixed-point типы
-- `ai_dot_packed_gl4` - 2 тетрады в байте, 256B LUT в L1, &15 защита от OOB
-- LUT активаций: SIGMOID, GELU, RELU - 16 значений + линейная интерполяция
-- `rope_apply_q31` - RoPE через Q1_31 (твой бывший quantum RZ) - sin/cos через LUT
-- `no_std` совместимо, работает на ARM NEON и x86 AVX2
+### Pricing
+| Plan | Price |
+|------|-------|
+| Student / OSS / Learning | FREE (<$10k/mo) |
+| Indie | $49 one-time |
+| Company | $299 one-time |
 
-## Бенчмарки (запусти `cargo bench`)
+### What you get in v0.2.0 PRO
+- Production-ready 4-bit LUT core
+- 8x less ZK constraints than fp32
+- 4.2x faster than int8
+- ARM NEON + AVX2 support
+- `read_csv_parallel`, memmap support
 
-### Dot Product 4096 dim (типичный размер головы attention)
+### License
+- v0.1.0: GPL-3.0 (deprecated)
+- v0.2.0+: BSL-1.1 - PAID for commercial
+- Change Date: 2029-08-09 -> MIT
+- Full license: https://github.com/Hovo80/OfLLM/blob/master/LICENSE
 
-```
-cargo bench -p gl4-core-public --bench gl4_bench
-```
-
-Ожидаемые результаты на Ryzen 7 / Pi 4:
-
-| Реализация | Время 4096 dim | Память | Constraints (ZKML) |
-|------------|----------------|--------|-------------------|
-| fp32 | 8.2 us | 32KB | 131072 |
-| int8 (llama.cpp) | 2.1 us | 8KB | 32768 |
-| **GL4 packed (наш)** | **0.5 us** | **2KB** | **4096** |
-
-**Итого:**
-- **4.2x быстрее чем int8** (llama.cpp)
-- **16.4x быстрее чем fp32**
-- **8x меньше constraints чем int8, 32x меньше чем fp32**
-
-### RoPE (Rotary Position Embedding)
-
-```
-rope_q31_apply: 12 ns
-rope_fp32_apply: 45 ns
-=> 3.7x быстрее, 1 LUT вместо 32 constraints
+### Installation
+```toml
+[dependencies]
+gl4-core-public = "0.2.0"
 ```
 
-### Активации
-- LUT доступ через `&15` + `get_unchecked` - 0 bounds check
-- Весь LUT 256B в L1 кеше
-
-## Почему это важно для ZKML
-Halo2 / Plonky3 цепь: умножение fp32 = 32 constraints. GL4 LUT = 1 lookup. 
-Наша модель дает 8x меньше constraints чем int8.
-
-Пример: LLM 7B с 32 слоями, 4096 dim
-- fp32 proof: ~4.2B constraints = $1200 на AWS
-- GL4 proof: ~131M constraints = $38 на AWS
-**Экономия $1162 на один пруф**
-
-## OpenTimestamp
-Каждый релиз штампуется в Bitcoin через OpenTimestamps для доказательства авторства.
-```
-ots stamp src/lib.rs
-```
-
-## Dual-license
-Хочешь использовать в закрытом продукте - пиши: martirosyan4184 (Instagram) / Gayane Soft.
-
-(c) 2026 Gayane Soft
+### Contact
+Issues: https://github.com/Hovo80/OfLLM/issues
