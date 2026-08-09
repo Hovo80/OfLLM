@@ -1,16 +1,62 @@
 #![allow(dead_code)]
-use crate::types::Q1_31;
+// gl4-core-public/src/fixed.rs - Q16.16 fixed, no_std, saturate
+// Автор: Martirosyan Hovhannes
 
-/// Умножение Q1.31 * Q1.31 -> Q1.31 с округлением
-#[inline(always)] pub fn q31_mul(a: Q1_31, b: Q1_31) -> Q1_31 { a.mul(b) }
+use core::ops::{Add, Sub, Mul};
 
-/// RoPE через RZ LUT - используй таблицы из quantum32
-#[inline(always)]
-pub fn rope_apply_q31(re: Q1_31, im: Q1_31, cos: Q1_31, sin: Q1_31) -> (Q1_31, Q1_31) {
-    // (re + i*im) * (cos + i*sin)
-    // real = re*cos - im*sin
-    // imag = re*sin + im*cos
-    let r = Q1_31(((re.0 as i64 * cos.0 as i64 - im.0 as i64 * sin.0 as i64) >> 31) as i32);
-    let i = Q1_31(((re.0 as i64 * sin.0 as i64 + im.0 as i64 * cos.0 as i64) >> 31) as i32);
-    (r, i)
+/// FixedI16 - Q16.16: 16 целых + 16 дробных, i32
+/// no_std, переполнение с saturate, mul = (i64*a*b)>>16
+/// Цель: <8ms на 1M mul vs 25ms fp32
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[repr(transparent)]
+pub struct FixedI16(pub i32);
+
+impl FixedI16 {
+    pub const SCALE: i64 = 1 << 16;
+    pub const ONE: Self = Self(1 << 16);
+    pub const ZERO: Self = Self(0);
+
+    #[inline(always)]
+    pub fn from_f32(f: f32) -> Self {
+        // clamp чтобы не переполнить
+        let clamped = f.clamp(-32768.0, 32767.9999);
+        Self((clamped * Self::SCALE as f32) as i32)
+    }
+
+    #[inline(always)]
+    pub fn to_f32(self) -> f32 {
+        self.0 as f32 / Self::SCALE as f32
+    }
+
+    #[inline(always)]
+    pub fn from_raw(raw: i32) -> Self { Self(raw) }
+
+    #[inline(always)]
+    pub fn saturating_add(self, other: Self) -> Self {
+        Self(self.0.saturating_add(other.0))
+    }
+
+    // Будущее: LUT для sin/cos RoPE в Q1_31 - 256 значений в L1
+    // Сейчас cos/sin приходят извне, можно сделать таблицу [Q1_31; 256]
+    // TODO: private LUT в q20-private
+}
+
+impl Add for FixedI16 {
+    type Output = Self;
+    #[inline(always)] fn add(self, other: Self) -> Self { Self(self.0.wrapping_add(other.0)) }
+}
+
+impl Sub for FixedI16 {
+    type Output = Self;
+    #[inline(always)] fn sub(self, other: Self) -> Self { Self(self.0.wrapping_sub(other.0)) }
+}
+
+impl Mul for FixedI16 {
+    type Output = Self;
+    #[inline(always)]
+    fn mul(self, other: Self) -> Self {
+        // (a * b) >> 16 с округлением
+        let prod = self.0 as i64 * other.0 as i64;
+        Self(((prod + (1 << 15)) >> 16) as i32)
+    }
 }

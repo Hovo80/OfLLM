@@ -2,7 +2,8 @@
 members = ["gl4-core-public", "q20-private"]
 resolver = "2"
 
-[profile.release]
-lto = true
-codegen-units = 1
-opt-level = 3
+# В КОРНЕ НЕ ДОЛЖНО БЫТЬ [[bench]] - это блокер фазы 0
+# Бенчи только внутри пакетов
+
+[workspace.dependencies]
+criterion = "0.5"
