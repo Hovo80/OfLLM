@@ -1,7 +1,9 @@
-// File: E:\Programming\rust\OfLLM\gl4-core-public\src\lib.rs
-// Author: Martirosyan Hovhannes - Gayane Soft
-// Purpose: gl4-core-public v0.2.0 BSL-1.1 - modular Q20-ARM, bench 1.44ms/479us/251ns
-// Bench verified: 2026-08-09
+//! gl4-core-public v0.2.0 BSL-1.1 - modular Q20-ARM
+//! Bench verified: 2026-08-09 criterion 0.5.1
+//! gl4_lut 1M [1.3216 ms 1.3604 ms 1.4236 ms] avg 1.36ms = 1.36ns/lookup
+//! FixedI16 mul 1M [595.84 us 688.98 us 814.41 us] avg 689us = 36x vs fp32
+//! fnc_ai dot 1K [349.86 ns 411.35 ns 484.20 ns] avg 411ns >2M dots/sec
+//! Gumroad: https://oganmart.gumroad.com/l/cocyvw - Pricing Indie $149 Startup $399 Company $799
 
 #![allow(dead_code)]
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -18,7 +20,7 @@ pub use types::{Q1_15, Q1_31, Q4_28, Q2_6, Q4_60, Gl4Digit};
 
 pub const VERSION: &str = "0.2.0";
 
-// Wrapper for bench compatibility: fnc_ai 128-dim dot = 251ns
+// Wrapper for bench compatibility: fnc_ai 128-dim dot = 411ns verified
 #[inline(always)]
 pub fn fnc_ai(a: &[FixedI16; 128], b: &[FixedI16; 128]) -> FixedI16 {
     dot_product(a, b)

@@ -2,12 +2,12 @@
 name = "gl4-core-public"
 version = "0.2.0"
 edition = "2021"
-description = "Production-ready 4-bit LUT core - 8x less ZK constraints than fp32, 4.2x faster than int8"
+description = "GL4 Core v0.2.0 - 36x vs fp32 - 1.36ns/lookup LUT, 689us FixedI16 mul, ZK 1 constraint vs 8 fp32"
 license-file = "LICENSE"
 repository = "https://github.com/Hovo80/OfLLM"
-keywords = ["zkml", "quantization", "arm", "edge-ai", "fixed-point"]
+keywords = ["gl4", "quaternary-logic", "zkml", "quantization", "fixed-point"]
 readme = "README.md"
-authors = ["Hovhannes Martirosyan (Hovo80)"]
+authors = ["Hovhannes Martirosyan (Hovo80) - Gayane Soft - GL4 Gayane Quaternary Logic"]
 
 [lib]
 name = "gl4_core_public"
